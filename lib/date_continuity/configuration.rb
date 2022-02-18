@@ -2,7 +2,7 @@
 
 module DateContinuity
   class Configuration
-    attr_accessor :frequency_method
+    attr_accessor :time_unit_method, :frequency_count_method
 
     def self.setup
       new.tap do |instance|
@@ -11,7 +11,8 @@ module DateContinuity
     end
 
     def initialize
-      @frequency_method = :frequency
+      @time_unit_method = :time_unit
+      @frequency_count_method = :frequency
     end
   end
 end

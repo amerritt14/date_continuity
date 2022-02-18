@@ -14,6 +14,7 @@ module DateContinuity
     attr_reader :config
 
     # Configurable options
-    def_delegators :@config, :frequency_method, :frequency_method=
+    def_delegators :@config, :time_unit_method, :time_unit_method=
+    def_delegators :@config, :frequency_count_method, :frequency_count_method=
   end
 end
