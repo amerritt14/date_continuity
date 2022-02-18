@@ -10,7 +10,7 @@ Add the gem to the Gemfile
 ```ruby
 source 'https://rubygems.org'
 
-gem 'stripe'
+gem 'date_continuity'
 ```
 
 And execute:
@@ -80,11 +80,16 @@ $ contract.calc_end_on
 Most everything is configurable. You can change the names of your start/end/duration columns. In fact, they don't even need to be database columns, so long as the model responds with the appropriate object type.
 
 ### Example
-This example configuration file contains all the _currently_ configurable settings. More will be added for `start_on`, `end_on`, and `duration`.
+This example configuration file contains all the _currently_ configurable settings and their defaults.
 
 ```ruby
 # config/initializers/date_continuity_initializer.rb
 
-DateContinuity.frequency_count_method = :frequency
-DateContinuity.time_unit_method = :time_unit
+DateContinuity.configure do |config|
+  config.duration_method = :duration
+  config.end_method = :end_at
+  config.frequency_count_method = :frequency
+  config.start_method = :start_at
+  config.time_unit_method = :time_unit
+end
 ```

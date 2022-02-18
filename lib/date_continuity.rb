@@ -2,19 +2,14 @@
 
 require "active_record"
 
-require "date_continuity/configuration"
 require "date_continuity/model"
 
 module DateContinuity
-  @config = DateContinuity::Configuration.setup
-
   class << self
-    extend Forwardable
+    attr_accessor :duration_method, :end_method, :frequency_count_method, :start_method, :time_unit_method
+  end
 
-    attr_reader :config
-
-    # Configurable options
-    def_delegators :@config, :time_unit_method, :time_unit_method=
-    def_delegators :@config, :frequency_count_method, :frequency_count_method=
+  def self.configure
+    yield self
   end
 end

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'date_continuity'
-  s.version     = '0.0.1'
+  s.version     = '0.1.0'
   s.summary     = "A gem to handle calculating start/end dates based on a duration and frequency"
   s.description = "Calculate fields based on a minimum set of information."
   s.authors     = ["Andrew Merritt"]
