@@ -7,5 +7,5 @@ Gem::Specification.new do |s|
   s.email       = 'andrew.w.merritt@gmail.com'
   s.files       = ["lib/date_continuity.rb"]
   s.homepage    = 'https://rubygems.org/gems/date_continuity'
-  s.license       = 'MIT'
+  s.license     = 'MIT'
 end
