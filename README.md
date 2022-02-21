@@ -8,9 +8,9 @@ This is a gem intended to handle start/end/duration
 ### Bundler
 Add the gem to the Gemfile
 ```ruby
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'date_continuity'
+gem "date_continuity"
 ```
 
 And execute:

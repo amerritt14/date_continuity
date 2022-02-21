@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_support/all"
+
 module DateContinuity
   module Model
     TIME_UNIT_VALUES = %w(second minute hour day week month year).freeze
@@ -8,8 +10,8 @@ module DateContinuity
       minute: 1_440,
       hour: 24,
       day: 1,
-      week: 7
-    }.with_indifferent_access.freeze
+      week: (1.0 / 7)
+    }.freeze
 
     class UnsupportedTimeUnitError < StandardError; end
 
@@ -61,8 +63,9 @@ module DateContinuity
                   when "year"
                     years_between(start_value, end_value)
                   else
-                    (end_value - start_value) * DAY_EQUIVALENTS[time_unit_value]
+                    (end_value - start_value) * DAY_EQUIVALENTS[time_unit_value.to_sym]
                   end + 1
+      @duration.to_i
     end
 
     def set_duration
