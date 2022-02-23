@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require "date_continuity/model"
 require_relative "./models/contract"
+require "pry"
 
 class DateContinuityModelTest < Minitest::Test
   def setup
@@ -240,13 +241,23 @@ class DateContinuityModelTest < Minitest::Test
     assert_equal 3_600, subject.calc_duration
   end
 
-  def test_calc_end_at_in_seconds_with_frequency
+  def test_calc_end_at_in_seconds_with_frequency_less_than_one
     @time_unit = "second"
     @start_at = DateTime.new(2000, 1, 1, 0, 0, 0, "EST")
     @duration = 1_800
     @frequency = 0.5
 
     assert_equal DateTime.new(2000, 1, 1, 0, 59, 58, "EST"), subject.calc_end_at
+  end
+
+  def test_calc_end_at_in_seconds_with_frequency_greater_than_one
+    @time_unit = "second"
+    @start_at = DateTime.new(2000, 1, 1, 0, 0, 0, "EST")
+    @duration = 1_800
+    @frequency = 2 # Every half second
+
+    delta = 1.0 / 172_800.0 # 172_800 half-seconds in a day
+    assert_in_delta DateTime.new(2000, 1, 1, 0, 14, 59, "EST").to_i, subject.calc_end_at.to_i, delta
   end
 
   private

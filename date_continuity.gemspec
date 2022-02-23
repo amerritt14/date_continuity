@@ -8,5 +8,5 @@ Gem::Specification.new do |s|
   s.files       = ["lib/date_continuity.rb"]
   s.homepage    = "https://rubygems.org/gems/date_continuity"
   s.license     = "MIT"
-  s.add_dependency 'active_support', '~> 6.0.0'
+  s.add_dependency 'activesupport', '> 5.0.0'
 end

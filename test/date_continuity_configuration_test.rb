@@ -2,7 +2,7 @@ require "minitest/autorun"
 require "date_continuity/model"
 
 class DateContinuityConfigurationTest < Minitest::Test
-  def setup
+  def teardown
     # Reset configuration between runs
     DateContinuity.configuration = DateContinuity::Configuration.new
   end
