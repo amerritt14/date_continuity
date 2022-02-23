@@ -10,7 +10,7 @@ module DateContinuity
       minute: 1_440,
       hour: 24,
       day: 1,
-      week: (1.0 / 7)
+      week: (1.0 / 7.0)
     }.freeze
 
     class UnsupportedTimeUnitError < StandardError; end
@@ -19,18 +19,13 @@ module DateContinuity
 
     extend ActiveSupport::Concern
 
+    delegate :duration_method, :end_method, :frequency_count_method,
+             :start_method, :time_unit_method, to: :config
+
     included do
-      class_attribute :duration_method, :end_method, :frequency_count_method, :start_method, :time_unit_method
-
-      self.duration_method = DateContinuity.duration_method || :duration
-      self.start_method = DateContinuity.start_method || :start_at
-      self.end_method = DateContinuity.end_method || :end_at
-      self.time_unit_method = DateContinuity.time_unit_method || :time_unit
-      self.frequency_count_method = DateContinuity.frequency_count_method || :frequency
-
-      alias_method "calc_#{duration_method}".to_sym, :calc_duration
-      alias_method "calc_#{end_method}".to_sym, :calc_end
-      alias_method "calc_#{start_method}".to_sym, :calc_start
+      alias_method "calc_#{DateContinuity.configuration.duration_method}".to_sym, :calc_duration
+      alias_method "calc_#{DateContinuity.configuration.end_method}".to_sym, :calc_end
+      alias_method "calc_#{DateContinuity.configuration.start_method}".to_sym, :calc_start
     end
 
     def duration_object
@@ -73,6 +68,10 @@ module DateContinuity
     end
 
     private
+
+    def config
+      @config ||= DateContinuity.configuration
+    end
 
     # Calculations
     def months_between(date1, date2)

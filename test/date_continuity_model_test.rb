@@ -1,7 +1,6 @@
 require "minitest/autorun"
 require "date_continuity/model"
 require_relative "./models/contract"
-require "pry"
 
 class DateContinuityModelTest < Minitest::Test
   def setup

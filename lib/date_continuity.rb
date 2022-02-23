@@ -2,14 +2,19 @@
 
 require "active_record"
 
+require "date_continuity/configuration"
 require "date_continuity/model"
 
 module DateContinuity
-  class << self
-    attr_accessor :duration_method, :end_method, :frequency_count_method, :start_method, :time_unit_method
+  def self.configuration
+    @configuration ||= DateContinuity::Configuration.new
+  end
+
+  def self.configuration=(config)
+    @configuration = config
   end
 
   def self.configure
-    yield self
+    yield configuration
   end
 end
