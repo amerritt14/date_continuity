@@ -37,6 +37,15 @@ class DateContinuityModelTest < Minitest::Test
     assert_equal 1000, subject.calc_duration
   end
 
+  def test_calc_duration_in_years_with_frequency
+    @time_unit = "year"
+    @start_at = DateTime.new(2000, 1, 1, 0, 0, 0, "EST")
+    @end_at = DateTime.new(2499, 1, 1, 0, 0, 0, "EST")
+    @frequency = 2.0
+
+    assert_equal 1000, subject.calc_duration
+  end
+
   def test_calc_end_at_in_years_with_frequency
     @time_unit = "year"
     @start_at = DateTime.new(2000, 1, 1, 0, 0, 0, "EST")

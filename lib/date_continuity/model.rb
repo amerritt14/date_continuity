@@ -13,10 +13,6 @@ module DateContinuity
       week: (1.0 / 7.0)
     }.freeze
 
-    class UnsupportedTimeUnitError < StandardError; end
-
-    class NotEnoughInformationError < StandardError; end
-
     extend ActiveSupport::Concern
 
     delegate :duration_method, :end_method, :frequency_count_method,
@@ -29,28 +25,28 @@ module DateContinuity
     end
 
     def duration_object
-      (duration_value - 1).public_send(time_unit_value)
+      ((duration_value - 1).public_send(time_unit_value) / frequency_value)
     end
 
     def calc_end
       if start_value.present? && duration_value.present?
-        start_value + (duration_object / frequency_value)
+        start_value + duration_object
       else
-        _raise_not_enough_information_error %w(start_value duration_value)
+        _raise_not_enough_information_error [start_method, duration_method]
       end
     end
 
     def calc_start
       if end_value.present? && duration_value.present?
-        end_value - (duration_object / frequency_value)
+        end_value - duration_object
       else
-        _raise_not_enough_information_error %w(end_value duration_value)
+        _raise_not_enough_information_error [end_method, duration_method]
       end
     end
 
     def calc_duration
       # DateTime subtraction returns a fraction representing days
-      _raise_not_enough_information_error %w(start_value end_value) unless start_value.present? && end_value.present?
+      _raise_not_enough_information_error [start_method, end_method] unless start_value.present? && end_value.present?
 
       @duration = case time_unit_value
                   when "month"
@@ -60,7 +56,7 @@ module DateContinuity
                   else
                     (end_value - start_value) * DAY_EQUIVALENTS[time_unit_value.to_sym]
                   end + 1
-      @duration.to_i
+      (@duration * frequency_value).to_i
     end
 
     def set_duration
@@ -119,17 +115,17 @@ module DateContinuity
 
     def time_unit_value
       send(time_unit_method).tap do |value|
-        _raise_unsupported_time_unit_error unless TIME_UNIT_VALUES.include?(value)
+        _raise_unsupported_time_unit_error(value) unless TIME_UNIT_VALUES.include?(value)
       end
     end
 
     # Exceptions
-    def _raise_unsupported_time_unit_error
-      raise UnsupportedTimeUnitError.new("TimeUnit must be one of #{TIME_UNIT_VALUES.join(', ')}")
+    def _raise_unsupported_time_unit_error(value)
+      raise UnsupportedTimeUnitError.new(value)
     end
 
     def _raise_not_enough_information_error(required_columns)
-      raise NotEnoughInformationError.new("#{required_columns.join(', ')} must be set")
+      raise NotEnoughInformationError.new(required_columns)
     end
   end
 end

@@ -3,6 +3,7 @@
 require "active_record"
 
 require "date_continuity/configuration"
+require "date_continuity/errors"
 require "date_continuity/model"
 
 module DateContinuity
