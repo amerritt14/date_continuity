@@ -6,14 +6,14 @@ This is a gem intended to handle start/end/duration
     - [Standalone](#standalone)
     - [Bundler](#bundler)
   - [Usage](#usage)
-    - [Example](#example)
+    - [Example Usage](#example-usage)
     - [Start Method](#start-method)
     - [End Method](#end-method)
     - [Duration Method](#duration-method)
     - [Frequency Count Method](#frequency-count-method)
     - [Time Unit Method](#time-unit-method)
   - [Configuration](#configuration)
-    - [Example](#example)
+    - [Example Configuration](#example-configuration)
 
 ## Installation
 ### Standalone
@@ -50,7 +50,7 @@ and migrate
 $ rails db:migrate
 ```
 
-### Example
+### Example Usage
 
 ```ruby
 class Contract < ActiveRecord::Base
@@ -132,7 +132,7 @@ The time unit must be one of the following options `second minute hour day week 
 ## Configuration
 Most everything is configurable. The methods don't even need to be database columns, so long as the object responds with the appropriate type and value.
 
-### Example
+### Example Configuration
 This example configuration file contains all the _currently_ configurable settings and their defaults.
 
 ```ruby
