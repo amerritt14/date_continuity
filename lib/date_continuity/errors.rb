@@ -16,4 +16,16 @@ module DateContinuity
       super("Missing Information: #{missing_columns.to_sentence} must be set.")
     end
   end
+
+  module Errors
+    extend ActiveSupport::Concern
+
+    def _raise_unsupported_time_unit_error(value)
+      raise UnsupportedTimeUnitError.new(value)
+    end
+
+    def _raise_not_enough_information_error(required_columns)
+      raise NotEnoughInformationError.new(required_columns)
+    end
+  end
 end

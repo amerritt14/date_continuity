@@ -1,5 +1,5 @@
 # Date Continuity
-This is a gem intended to handle start/end/duration
+This is a gem intended to handle start/end/duration DateTime calculations
 
 ## Contents
   - [Installation](#installation)
@@ -7,6 +7,10 @@ This is a gem intended to handle start/end/duration
     - [Bundler](#bundler)
   - [Usage](#usage)
     - [Example Usage](#example-usage)
+    - [Occurrence](#occurrence)
+      - [all_occurrences](#all_occurrences)
+      - [next_occurrence](#next_occurrence)
+      - [prev_occurrences](#prev_occurrence)
     - [Start Method](#start-method)
     - [End Method](#end-method)
     - [Duration Method](#duration-method)
@@ -87,17 +91,31 @@ $ contract.calc_end_at
 
 The object including `DateContinuity::Model` needs to respond to a number of methods.
 
+### Occurrence
+There are built in conveience methods to calculate and display occurrences.
+
+#### All Occurrences
+`all_occurrences` returns an array of DateTime objects, starting with the `start_at` DateTime, and incrementing based on on the frequency and time units, ending with the `end_at` value.
+
+#### Next Occurrence
+`next_occurrence` returns a DateTime object which represents the first value from `#all_occurrences` that is greater than, or equal to the current DateTime.
+It also accepts an optional DateTime argument which can be used to override the default, and find the next occurrence after the specified DateTime.
+
+#### Prev Occurrence
+`prev_occurrence` returns a DateTime object which represents the last value from `#all_occurrences` that is less than the current DateTime.
+It also accepts an optional DateTime argument which can be used to override the default, and find the last occurrence before the specified DateTime.
+
 ### Start
 By default the `start_method` is `start_at`.
 
-The `start_method` value represents the time or date of the first occurance.
+The `start_method` value represents the time or date of the first occurrence.
 
 It should return the same type as [End](#end). If this method returns a `Date` object, the Time Unit can be configured for anything from a `day` or larger, since a `Date` cannot represent changes in units smaller than a day. If this method returns a `Time`, or a `DateTime` object, the Time Unit can be configured for any of the available units.
 
 ### End
 By default the `end_method` is `end_at`.
 
-The `end_method` value represents the time or date of the last occurance.
+The `end_method` value represents the time or date of the last occurrence.
 
 It should return the same type as [Start](#start). If this method returns a `Date` object, the Time Unit can be configured for anything from a `day` or larger, since a `Date` cannot represent changes in units smaller than a day. If this method returns a `Time`, or a `DateTime` object, the Time Unit can be configured for any of the available units.
 
@@ -126,7 +144,8 @@ Frequency is best thought of in terms of a fraction.
 ### Time Unit
 By default the `time_unit_method` is `time_unit`
 
-The time unit must be one of the following options `second minute hour day week month year`
+The time unit must be one of the following options: `second minute hour day week month year`
+It will also accept pluralized options: `seconds minutes hours days weeks months years`
 
 
 ## Configuration
